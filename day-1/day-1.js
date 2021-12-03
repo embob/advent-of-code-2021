@@ -21,7 +21,7 @@ console.log("Part 1", result);
 
 const slidingWindowArray = input.map((item, index, array) => {
   return item + array[index + 1] + array[index + 2];
-}).filter((item) => item === 0 || item);
+});
 
 const result2 = countIncreases(slidingWindowArray);
 
