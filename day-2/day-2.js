@@ -21,8 +21,11 @@ function sumHorizontalAndDepth(inputToArrays) {
   return positions.horizontal * positions.depth;
 }
 
+// Todo: use an object to store the condition as the key and the calculation as the value
+  // const direction = {
+  //     'up' : (parameters) => depth minus amount
+  //     'down' : (parameters) => depth plus amount
+  //     etc
+  // }
 
-
-
-
-console.log(sumHorizontalAndDepth(inputToArrays));
+console.log('Result', sumHorizontalAndDepth(inputToArrays));
