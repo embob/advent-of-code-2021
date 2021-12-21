@@ -1,20 +1,17 @@
 const { readInput, rowToColumns } = require("../lib/common");
 
-const fileInput = readInput("./day-4/input.txt").split('\n');
-
-// console.log(fileInput);
+const fileInput = readInput("./day-4/input.txt").split("\n");
 
 const input = [...fileInput];
 
-const bingoNumbers = input.splice(0, 1)[0].split(',').map(Number);
+const bingoNumbers = input.splice(0, 1)[0].split(",").map(Number);
 
-const boardsInput = input.filter(v => v)
-  .map(s => s.trim().replace(/\s{2}/g, ' ')
-  .split(' ')
-  .map(Number));
+const boardsInput = input
+  .filter((v) => v)
+  .map((s) => s.trim().replace(/\s{2}/g, " ").split(" ").map(Number));
 
 const boards = [];
-while(boardsInput.length > 0) {
+while (boardsInput.length > 0) {
   const board = boardsInput.splice(0, 5);
   boards.push([...board, ...rowToColumns(board)]);
 }
@@ -28,6 +25,27 @@ function removeNumberOnBoard(bingoNumber, board) {
   }
 }
 
-console.log(removeNumberOnBoard(bingoNumbers[0], boards[0]));
+function playGame(bingoNumbers, boards) {
+  for (let i = 0; i < bingoNumbers.length; i++) {
+    for (let j = 0; j < boards.length; j++) {
+      removeNumberOnBoard(bingoNumbers[i], boards[j]);
+      if (boards[j].some((line) => line.length === 0)) {
+        return { bingoNumber: bingoNumbers[i], winningBoard: boards[j] };
+      }
+    }
+  }
+}
 
-console.log(boards);
+function calculateBoardSum(board) {
+  const noDupeValues = [...new Set(board.flat())];
+  return noDupeValues.reduce((prev, curr) => {
+    return prev + curr;
+  }, 0);
+};
+
+function calculateScore(bingoNumbers, boards) {
+  const { bingoNumber, winningBoard } = playGame(bingoNumbers, boards);
+  return bingoNumber * calculateBoardSum(winningBoard);
+}
+
+console.log('Part 1 Result →', calculateScore(bingoNumbers, boards));
